@@ -3,14 +3,14 @@
 # ==========================
 FROM node:20-alpine AS frontend-build
 
-WORKDIR /app
+WORKDIR /app/client
 
-# Install dependencies
-COPY package*.json ./
+# Install frontend dependencies
+COPY client/package*.json ./
 RUN npm ci
 
 # Copy frontend source and build
-COPY ./ ./
+COPY client/ ./
 RUN npm run build
 
 # ==========================
@@ -18,14 +18,14 @@ RUN npm run build
 # ==========================
 FROM node:20-alpine AS backend-build
 
-WORKDIR /app
+WORKDIR /app/server
 
-# Install dependencies
+# Install backend dependencies (production only)
 COPY server/package*.json ./
-RUN npm ci
+RUN npm ci --omit=dev
 
 # Copy backend source
-COPY ./ ./
+COPY server/ ./
 
 # Copy built frontend into backend public folder
 COPY --from=frontend-build /app/client/build ./public
@@ -37,17 +37,11 @@ FROM node:20-alpine AS production
 
 WORKDIR /app
 
-# Copy backend + frontend build
-COPY --from=backend-build /app .
+# Copy backend + built frontend
+COPY --from=backend-build /app/server ./
 
-# Set production environment
 ENV NODE_ENV=production
-
-# Expose port
 EXPOSE 3000
 
-# Install only production dependencies
-RUN npm ci --omit=dev
-
-# Run the app
+# Start the app
 CMD ["node", "server.js"]
