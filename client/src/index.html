@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VettlyAI DevSecOps Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>VettlyAI: Next-Gen DevSecOps for Modern Enterprises</h1>
+    <p id="dynamic-tagline">
+      Secure, automated, and observable DevOps pipelines that reduce risks, accelerate deployments, and ensure compliance.
+    </p>
+  </header>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const taglines = [
+        "Security-first. Always.",
+        "Cloud-ready pipelines for rapid delivery.",
+        "GitOps-driven deployments with zero downtime.",
+        "End-to-end observability and monitoring.",
+        "Compliance baked in, not bolted on.",
+        "Free your team from firefighting."
+      ];
+
+      let index = 0;
+      const taglineEl = document.getElementById('dynamic-tagline');
+
+      setInterval(() => {
+        taglineEl.style.opacity = 0; // fade out
+        setTimeout(() => {
+          taglineEl.textContent = taglines[index];
+          taglineEl.style.opacity = 1; // fade in
+          index = (index + 1) % taglines.length;
+        }, 500);
+      }, 4000); // every 4 seconds
+    });
+  </script>
+
+  <!-- Dynamic Metric Cards -->
+  <section class="cards">
+    <!-- Backend & DB Status, Trivy, TFLint, Checkov, Secrets will populate here dynamically -->
+  </section>
+
+  <!-- Charts Section -->
+  <section class="charts">
+    <div class="card">
+      <h2>Trivy Vulnerabilities</h2>
+      <canvas id="trivyChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h2>Checkov Compliance</h2>
+      <canvas id="checkovChart"></canvas>
+    </div>
+  </section>
+
+  <!-- Info Cards (Static Content) -->
+  <section class="info-cards">
+    <div class="card">
+      <h2>Container Security</h2>
+      <p>We scan Docker images using <strong>Trivy</strong> to detect vulnerabilities before deployment.</p>
+      <pre><code>docker scan myimage:latest --security-checks vuln,secret</code></pre>
+    </div>
+
+    <div class="card">
+      <h2>Infrastructure as Code</h2>
+      <p>Terraform code is linted using <strong>TFLint</strong> and security-checked using <strong>Checkov</strong>.</p>
+      <pre><code>tflint
+checkov -d terraform/</code></pre>
+    </div>
+
+    <div class="card">
+      <h2>CI/CD Automation</h2>
+      <p>GitHub Actions pipelines automate build, test, security scans, and deployments to EKS.</p>
+      <pre><code>name: CI/CD Pipeline
+on: [push]
+jobs:
+  build:
+    steps:
+      - uses: actions/checkout@v3
+      - name: Docker Build & Trivy Scan
+        run: |
+          docker build -t vettlyai/frontend:latest .
+          trivy image vettlyai/frontend:latest</code></pre>
+    </div>
+
+    <div class="card">
+      <h2>Secrets Management</h2>
+      <p>Secrets are stored securely using GitHub Secrets and Kubernetes Secrets.</p>
+      <pre><code>kubectl create secret generic db-secret \
+  --from-literal=username=vettly \
+  --from-literal=password=vettlypass</code></pre>
+    </div>
+
+    <div class="card">
+      <h2>Monitoring & Observability</h2>
+      <p>Prometheus & Grafana track performance and security metrics across the application stack.</p>
+    </div>
+
+    <div class="card">
+      <h2>GitOps</h2>
+      <p>ArgoCD ensures continuous deployment and self-healing for all Kubernetes resources.</p>
+    </div>
+  </section>
+
+  <!-- Info Details Section -->
+  <section class="info-details">
+    <div class="card">
+      <h2>End-to-End Security</h2>
+      <p>
+        VettlyAI protects every stage of your DevOps pipeline: code scanning, dependency checks, configuration validation, and runtime monitoring. Automated vulnerability detection and secret management minimise the risk of breaches and misconfigurations.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Cost Optimisation</h2>
+      <p>
+        Intelligently deploy workloads in private subnets and utilise AWS managed services such as EKS, RDS, and NAT gateways. Autoscaling and automated lifecycle management ensure you only pay for resources you actually use.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Future Vision</h2>
+      <p>
+        Our aim is to deliver an AI-assisted DevSecOps platform that grows with your organisation. From predictive security alerts to automated compliance reporting, VettlyAI strives to make DevSecOps effortless and future-proof.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Contact Us</h2>
+      <ul>
+        <li>Email: <strong>contact@vettlyai.com</strong></li>
+        <li>Phone: <strong>+44 (0)20 1234 5678</strong></li>
+        <li>Website: <strong><a href="https://www.vettlyai.com" target="_blank">www.vettlyai.com</a></strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 VettlyAI | DevSecOps Excellence</p>
+  </footer>
+</body>
+</html>

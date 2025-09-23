@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  frontend:
+    build: ./client
+    container_name: vettlyai_frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - vettlyai-network
+
+  backend:
+    build: ./server
+    container_name: vettlyai_backend
+    environment:
+      POSTGRES_HOST: database
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: vettly
+      POSTGRES_PASSWORD: vettlypass
+      POSTGRES_DB: vettlydb
+    ports:
+      - "5000:5000"
+    depends_on:
+      - database
+    networks:
+      - vettlyai-network
+
+  database:
+    image: postgres:15
+    container_name: vettlyai_db
+    environment:
+      POSTGRES_DB: vettlydb
+      POSTGRES_USER: vettly
+      POSTGRES_PASSWORD: vettlypass
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - vettlyai-network
+
+networks:
+  vettlyai-network:
+
+volumes:
+  db_data:
