@@ -1,5 +1,5 @@
 # Use official Python slim image for smaller attack surface
-FROM python:3.11-slim
+FROM python:3.11-alpine
 
 # Set working directory
 WORKDIR /app
